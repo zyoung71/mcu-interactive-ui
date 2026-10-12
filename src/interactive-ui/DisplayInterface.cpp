@@ -1,5 +1,3 @@
-#include "interactive-ui/DisplayInterface.hpp"
-#include "interactive-ui/graphics/Font.hpp"
 #include <interactive-ui/ScreenManager.hpp>
 #include <interactive-ui/graphics/Rasterization.hpp>
 
@@ -442,4 +440,54 @@ void DisplayInterface::FillRectangle(int32_t x_0, int32_t y_0, int32_t len_x, in
     for (int32_t x = x_0; x < end_x; x++)
         for (int32_t y = y_0; y < end_y; y++)
             DrawPixel(x, y, color);
+}
+
+void DisplayInterface::DrawBitmapImage(Vec2i32 pos, Vec2i32 size, const ArrayView<RGBA>& image)
+{
+    for (int32_t x = pos.x; x < size.x; x++)
+    {
+        for (int32_t y = pos.y; y < size.y; y++)
+        {
+            DrawPixel(x, y, image[size.x * y + x]);
+        }
+    }
+}
+
+void DisplayInterface::DrawBitmapImage(Vec2i32 pos, const ArrayView2D<RGBA>& image)
+{
+    for (int32_t x = pos.x; x < image.cols; x++)
+    {
+        for (int32_t y = pos.y; x < image.rows; y++)
+        {
+            DrawPixel(x, y, image(y, x));
+        }
+    }
+}
+
+void DisplayInterface::DrawBitmapImage(Vec2i32 pos, StorageDevice* storage, const char* path_to_image)
+{
+    storage->OpenFile(path_to_image, FileAccess::READ);
+    storage->Seek(10);
+
+    uint32_t image_data_addr;
+    storage->ReadBuffer(&image_data_addr, 4);
+
+    int32_t image_width, image_height;
+    storage->Seek(18);
+    storage->ReadBuffer(&image_width, 4);
+    storage->ReadBuffer(&image_height, 4);
+
+    storage->Seek(image_data_addr);
+
+    uint32_t* scanline = new uint32_t[image_width]; // heap alloc as this may be a large chunk of memory
+
+    for (int32_t y = pos.y + image_height; y >= pos.y; y--)
+    {
+        storage->ReadBuffer(scanline, sizeof(uint32_t) * image_width);
+
+        for (int32_t x = pos.x; x < image_width; x++)
+            DrawPixel(x, y, RGBA::FromABGR(scanline[x]));
+    }
+
+    delete[] scanline;
 }

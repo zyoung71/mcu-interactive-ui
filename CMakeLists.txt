@@ -20,6 +20,7 @@ if (NOT TARGET pico-interactive-ui)
 
     add_subdirectory(lib/pico-math)
     add_subdirectory(lib/pico-event-hardware)
+    add_subdirectory(lib/pico-storage-device)
 
     target_include_directories(pico-interactive-ui PUBLIC
         include
@@ -28,6 +29,7 @@ if (NOT TARGET pico-interactive-ui)
     target_link_libraries(pico-interactive-ui
         pico-math
         pico-event-hardware
+        pico-storage-device
     )
 
 endif()

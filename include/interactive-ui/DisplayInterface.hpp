@@ -4,6 +4,9 @@
 
 #include "graphics/Font.hpp"
 #include "graphics/Color.hpp"
+#include "math/Vec2.hpp"
+#include "storage/StorageDevice.hpp"
+#include "util/ArrayView.hpp"
 
 using graphics::RGBA;
 using graphics::HSV;
@@ -67,5 +70,9 @@ public:
     void FillRectangle(Vec2i32 pos, Vec2i32 size, RGBA color);
     void FillRectangle(AABBi32 dimensions, RGBA color);
     void FillRectangle(int32_t x_0, int32_t y_0, int32_t len_x, int32_t len_y, RGBA color);
+
+    void DrawBitmapImage(Vec2i32 pos, Vec2i32 size, const ArrayView<RGBA>& image);
+    void DrawBitmapImage(Vec2i32 pos, const ArrayView2D<RGBA>& image);
+    void DrawBitmapImage(Vec2i32 pos, StorageDevice* storage, const char* path_to_image);
 
 };

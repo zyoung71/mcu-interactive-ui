@@ -30,6 +30,14 @@ namespace graphics
         {
             return ((red & 0xF8) << 8) | ((green & 0xFC) << 3) | (blue >> 3);
         }
+        
+        constexpr static inline RGBA FromABGR(uint32_t abgr)
+        {
+            return (((abgr >> 24) & 0xFF) << 0) |
+                (((abgr >> 16) & 0xFF) << 8) |
+                (((abgr >> 8) & 0xFF) << 16) |
+                (((abgr >> 0) & 0xFF) << 24);
+        }
 
         constexpr inline RGBA() : rgba(0) {}
         constexpr inline RGBA(uint32_t rgba) : rgba(rgba) {}
