@@ -5,8 +5,8 @@
 #include "graphics/Font.hpp"
 #include "graphics/Color.hpp"
 #include "math/Vec2.hpp"
-#include "storage/StorageDevice.hpp"
 #include "util/ArrayView.hpp"
+#include "storage/File.hpp"
 
 using graphics::RGBA;
 using graphics::HSV;
@@ -73,6 +73,5 @@ public:
 
     void DrawBitmapImage(Vec2i32 pos, Vec2i32 size, const ArrayView<RGBA>& image);
     void DrawBitmapImage(Vec2i32 pos, const ArrayView2D<RGBA>& image);
-    void DrawBitmapImage(Vec2i32 pos, StorageDevice* storage, const char* path_to_image);
-
+    void DrawBitmapImage(Vec2i32 pos, File* file);
 };

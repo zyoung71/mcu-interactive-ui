@@ -464,30 +464,30 @@ void DisplayInterface::DrawBitmapImage(Vec2i32 pos, const ArrayView2D<RGBA>& ima
     }
 }
 
-void DisplayInterface::DrawBitmapImage(Vec2i32 pos, StorageDevice* storage, const char* path_to_image)
+void DisplayInterface::DrawBitmapImage(Vec2i32 pos, File* file)
 {
-    storage->OpenFile(path_to_image, FileAccess::READ);
-    storage->Seek(10);
+    file->Seek(10);
 
     uint32_t image_data_addr;
-    storage->ReadBuffer(&image_data_addr, 4);
+    file->ReadBuffer(&image_data_addr, 4);
 
     int32_t image_width, image_height;
-    storage->Seek(18);
-    storage->ReadBuffer(&image_width, 4);
-    storage->ReadBuffer(&image_height, 4);
+    file->Seek(18);
+    file->ReadBuffer(&image_width, 4);
+    file->ReadBuffer(&image_height, 4);
 
-    storage->Seek(image_data_addr);
+    file->Seek(image_data_addr);
 
     uint32_t* scanline = new uint32_t[image_width]; // heap alloc as this may be a large chunk of memory
 
     for (int32_t y = pos.y + image_height; y >= pos.y; y--)
     {
-        storage->ReadBuffer(scanline, sizeof(uint32_t) * image_width);
+        file->ReadBuffer(scanline, sizeof(uint32_t) * image_width);
 
         for (int32_t x = pos.x; x < image_width; x++)
             DrawPixel(x, y, RGBA::FromABGR(scanline[x]));
     }
 
     delete[] scanline;
+    file->Close();
 }
