@@ -1,42 +1,42 @@
-#include <interactive-ui/components/PixelBufferComponent.hpp>
+#include <interactive-ui/components/PixelMapComponent.hpp>
 
-PixelBufferComponent::PixelBufferComponent(ScreenManager* manager, const Vec2i32& origin, const Vec2i32& dimensions, int32_t z_layer, Screen* initial_screen)
+PixelMapComponent::PixelMapComponent(ScreenManager* manager, const Vec2i32& origin, const Vec2i32& dimensions, int32_t z_layer, Screen* initial_screen)
     : SelectableComponent(manager, origin, z_layer, initial_screen)
 {
     draw_dimensions.max = dimensions;
 }
 
-PixelBufferComponent::PixelBufferComponent(ScreenManager* manager, const Vec2f& screen_percentage, const Vec2i32& dimensions, int32_t z_layer, Screen* initial_screen)
+PixelMapComponent::PixelMapComponent(ScreenManager* manager, const Vec2f& screen_percentage, const Vec2i32& dimensions, int32_t z_layer, Screen* initial_screen)
     : SelectableComponent(manager, screen_percentage, z_layer, initial_screen)
 {
     draw_dimensions.max = dimensions;
 }
 
-PixelBufferComponent::PixelBufferComponent(ScreenManager* manager, const Vec2i32& origin, const Pixel* initial_buffer, size_t buff_length, int32_t z_layer, Screen* initial_screen)
-    : PixelBufferComponent(manager, origin, Vec2i32{}, z_layer, initial_screen)
+PixelMapComponent::PixelMapComponent(ScreenManager* manager, const Vec2i32& origin, const Pixel* initial_buffer, size_t buff_length, int32_t z_layer, Screen* initial_screen)
+    : PixelMapComponent(manager, origin, Vec2i32{}, z_layer, initial_screen)
 {
     SetPixels(initial_buffer, buff_length);
 }
 
-PixelBufferComponent::PixelBufferComponent(ScreenManager* manager, const Vec2i32& origin, const ArrayView<Pixel>& initial_buffer, int32_t z_layer, Screen* initial_screen)
-    : PixelBufferComponent(manager, origin, Vec2i32{}, z_layer, initial_screen)
+PixelMapComponent::PixelMapComponent(ScreenManager* manager, const Vec2i32& origin, const ArrayView<Pixel>& initial_buffer, int32_t z_layer, Screen* initial_screen)
+    : PixelMapComponent(manager, origin, Vec2i32{}, z_layer, initial_screen)
 {
     SetPixels(initial_buffer);
 }
 
-PixelBufferComponent::PixelBufferComponent(ScreenManager* manager, const Vec2f& screen_percentage, const Pixel* initial_buffer, size_t buff_length, Screen* initial_screen)
-    : PixelBufferComponent(manager, screen_percentage, Vec2i32{}, z_layer, initial_screen)
+PixelMapComponent::PixelMapComponent(ScreenManager* manager, const Vec2f& screen_percentage, const Pixel* initial_buffer, size_t buff_length, Screen* initial_screen)
+    : PixelMapComponent(manager, screen_percentage, Vec2i32{}, z_layer, initial_screen)
 {
     SetPixels(initial_buffer, buff_length);
 }
 
-PixelBufferComponent::PixelBufferComponent(ScreenManager* manager, const Vec2f& screen_percentage, const ArrayView<Pixel>& initial_buffer, int32_t z_layer, Screen* initial_screen)
-    : PixelBufferComponent(manager, screen_percentage, Vec2i32{}, z_layer, initial_screen)
+PixelMapComponent::PixelMapComponent(ScreenManager* manager, const Vec2f& screen_percentage, const ArrayView<Pixel>& initial_buffer, int32_t z_layer, Screen* initial_screen)
+    : PixelMapComponent(manager, screen_percentage, Vec2i32{}, z_layer, initial_screen)
 {
     SetPixels(initial_buffer);
 }
 
-void PixelBufferComponent::SetPixel(Pixel p)
+void PixelMapComponent::SetPixel(Pixel p)
 {
     bool needs_realignment = false;
     if (p.position.x < draw_dimensions.xmin)
@@ -66,12 +66,12 @@ void PixelBufferComponent::SetPixel(Pixel p)
         Align();
 }
 
-void PixelBufferComponent::ClearPixels()
+void PixelMapComponent::ClearPixels()
 {
     pixel_map.clear();
 }
 
-void PixelBufferComponent::SetPixels(const ArrayView<Pixel>& pixels)
+void PixelMapComponent::SetPixels(const ArrayView<Pixel>& pixels)
 {
     int32_t max_x = INT32_MIN, max_y = INT32_MIN, min_x = INT32_MAX, min_y = INT32_MAX;
     for (size_t i = 0; i < pixels.length; i++)
@@ -91,7 +91,7 @@ void PixelBufferComponent::SetPixels(const ArrayView<Pixel>& pixels)
     Align();
 }
 
-void PixelBufferComponent::SetPixels(const Pixel* pixels, size_t p_count)
+void PixelMapComponent::SetPixels(const Pixel* pixels, size_t p_count)
 {
     int32_t max_x = INT32_MIN, max_y = INT32_MIN, min_x = INT32_MAX, min_y = INT32_MAX;
     for (size_t i = 0; i < p_count; i++)
@@ -111,7 +111,7 @@ void PixelBufferComponent::SetPixels(const Pixel* pixels, size_t p_count)
     Align();
 }
 
-void PixelBufferComponent::Draw(const Screen* screen)
+void PixelMapComponent::Draw(const Screen* screen)
 {
     Vec2i32 ss_pos = screen->ToScreenCoords(origin_position);
     for (const auto& [p, c] : pixel_map)

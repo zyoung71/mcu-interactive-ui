@@ -7,9 +7,10 @@ if (NOT TARGET pico-interactive-ui)
         src/interactive-ui/Component.cpp
         src/interactive-ui/SelectableComponent.cpp
         src/interactive-ui/ComponentPack.cpp
-        src/interactive-ui/components/BitmapComponent.cpp
-        src/interactive-ui/components/PixelBufferComponent.cpp
+        src/interactive-ui/components/PixelGridComponent.cpp
+        src/interactive-ui/components/PixelMapComponent.cpp
         src/interactive-ui/components/PaddingComponent.cpp
+        src/interactive-ui/components/BitmapComponent.cpp
         src/interactive-ui/components/TextComponent.cpp
         src/interactive-ui/components/DropDownBoxComponent.cpp
         src/interactive-ui/components/FunctionComponent.cpp

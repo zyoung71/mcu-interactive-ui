@@ -3,7 +3,7 @@
 #include "../ComponentPack.hpp"
 #include "TextComponent.hpp"
 #include "PaddingComponent.hpp"
-#include "BitmapComponent.hpp"
+#include "PixelGridComponent.hpp"
 
 constexpr RGBA data_dropdown_arrow[4][7] = {
     {1, 1, 1, 1, 1, 1, 1},
@@ -19,7 +19,7 @@ class DropDownBoxComponent : public Component
 protected:
     TextBoxComponent main_box;
     PaddingComponent arrow_box;
-    BitmapComponent arrow;
+    PixelGridComponent arrow;
 
 public:
     ComponentPack options;

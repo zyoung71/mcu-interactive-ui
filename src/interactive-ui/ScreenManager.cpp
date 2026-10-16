@@ -1,7 +1,7 @@
 #include <interactive-ui/ScreenManager.hpp>
 #include <interactive-ui/Screen.hpp>
 #include <interactive-ui/Component.hpp>
-#include <interactive-ui/components/PixelBufferComponent.hpp>
+#include <interactive-ui/components/PixelMapComponent.hpp>
 
 static constexpr Pixel cursor_unhover_data[] = {
     {{2, 0}, 1},
@@ -32,11 +32,11 @@ static constexpr Pixel cursor_hover_data[] = {
 static constexpr ArrayView<Pixel> cursor_unhover = make_array_view(cursor_unhover_data);
 static constexpr ArrayView<Pixel> cursor_hover = make_array_view(cursor_hover_data);
 
-class DefaultCursorComponent : public PixelBufferComponent, public CursorMixin
+class DefaultCursorComponent : public PixelMapComponent, public CursorMixin
 {
 public:
     DefaultCursorComponent(ScreenManager* manager)
-        : PixelBufferComponent(manager, Vec2i32{-10, -10}, cursor_unhover, INT32_MAX, nullptr),
+        : PixelMapComponent(manager, Vec2i32{-10, -10}, cursor_unhover, INT32_MAX, nullptr),
         CursorMixin() {}
 
     void OnHoverOverComponent(const Component* component) override
