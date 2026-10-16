@@ -27,5 +27,6 @@ BitmapComponent::BitmapComponent(ScreenManager* manager, const Vec2f& screen_per
 
 void BitmapComponent::Draw(const Screen *screen)
 {
-    display->DrawBitmapImage(screen->ToScreenCoords(origin_position - draw_dimensions.min), bitmap_image_file.get());
+    if (bitmap_image_file)
+        display->DrawBitmapImage(screen->ToScreenCoords(origin_position - draw_dimensions.min), bitmap_image_file.get());
 }
