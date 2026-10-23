@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 # Set VSCode Workspace Folder.
-set(VSCODE_WORKSPACE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+set(VSCODE_WORKSPACE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../..)
 
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_CXX_STANDARD 20)
@@ -24,7 +24,8 @@ pico_sdk_init()
 
 project(InteractiveUI C CXX ASM)
 
-add_subdirectory(../ build)
+add_subdirectory(../../ build/mcu-interactive-ui)
+add_subdirectory(../../lib/mcu-event-hardware/lib/mcu-util/lib/mcu-platform/platforms/rp2040 build/mcu-platform-rp2040)
 
 add_executable(InteractiveUI
     src/main.cpp
@@ -36,7 +37,8 @@ target_include_directories(InteractiveUI PUBLIC
 
 target_link_libraries(InteractiveUI
     pico_stdlib
-    pico-interactive-ui
+    mcu-interactive-ui
+    mcu-platform-rp2040
 )
 
 pico_enable_stdio_usb(${CMAKE_PROJECT_NAME} 1)

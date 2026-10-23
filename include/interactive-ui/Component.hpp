@@ -83,7 +83,7 @@ private:
     
 private:
     bool cancel_movements_flag;
-    mutable queue_t moving_queue; // queue containing animation objects. NOT pointers, but values
+    mutable mcu_queue_t* moving_queue; // queue containing animation objects. NOT pointers, but values
 
 protected:
     AlignmentVertical vertical_alignment = AlignmentVertical::TOP;

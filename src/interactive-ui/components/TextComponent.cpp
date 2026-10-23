@@ -1,5 +1,4 @@
 #include <interactive-ui/components/TextComponent.hpp>
-#include <util/Platform.h>
 #include <util/Chars.h>
 
 #include <cstring>
@@ -10,7 +9,6 @@ void TextComponent::UpdateTextDimensions()
     {
         if (!font_group)
         {
-            LOG("font_group is null!\n");
             return;
         }
     

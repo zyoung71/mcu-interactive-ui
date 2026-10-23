@@ -1,3 +1,4 @@
+#include "platform/util/queue.h"
 #include <interactive-ui/ScreenManager.hpp>
 #include <interactive-ui/Screen.hpp>
 #include <interactive-ui/Component.hpp>
@@ -63,12 +64,12 @@ ScreenManager::ScreenManager(DisplayInterface* const display)
     else
         refresh_period = 0.f;
 
-    queue_init(&control_queue, sizeof(ControlAction), 4);
+    mcu_queue_init(&control_queue, sizeof(ControlAction), 4);
 }
 
 ScreenManager::~ScreenManager()
 {
-    queue_free(&control_queue);
+    mcu_queue_deinit(control_queue);
 }
 
 void ScreenManager::PushScreen(Screen* screen)
@@ -116,14 +117,15 @@ void ScreenManager::EnableCursor(bool enable)
 void ScreenManager::EnableCBF(bool on)
 {
     click_between_frames = on;
-    while (queue_try_remove(&control_queue, nullptr)) {} // empty the queue
+    ControlAction dummy;
+    while (mcu_queue_try_pop(control_queue, &dummy)) {} // empty the queue
 }
 
 void ScreenManager::QueueControl(uint64_t action_mask)
 {
     if (click_between_frames)
         return selected_screen->OnControl(action_mask);
-    queue_try_add(&control_queue, &action_mask);
+    mcu_queue_try_push(control_queue, &action_mask);
 }
 
 void ScreenManager::UpdateDeltaTime()

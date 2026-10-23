@@ -1,6 +1,6 @@
-if (NOT TARGET pico-interactive-ui)
+if (NOT TARGET mcu-interactive-ui)
 
-    add_library(pico-interactive-ui STATIC
+    add_library(mcu-interactive-ui STATIC
         src/interactive-ui/DisplayInterface.cpp
         src/interactive-ui/Screen.cpp
         src/interactive-ui/ScreenManager.cpp
@@ -19,18 +19,19 @@ if (NOT TARGET pico-interactive-ui)
         src/interactive-ui/graphics/Font.cpp
     )
 
-    add_subdirectory(lib/pico-math)
-    add_subdirectory(lib/pico-event-hardware)
-    add_subdirectory(lib/pico-storage-device)
+    add_subdirectory(lib/mcu-math)
+    add_subdirectory(lib/mcu-event-hardware)
+    add_subdirectory(lib/mcu-storage-device)
 
-    target_include_directories(pico-interactive-ui PUBLIC
+    target_include_directories(mcu-interactive-ui PUBLIC
         include
     )
 
-    target_link_libraries(pico-interactive-ui
-        pico-math
-        pico-event-hardware
-        pico-storage-device
+    target_link_libraries(mcu-interactive-ui
+        mcu-platform-interface
+        mcu-math
+        mcu-event-hardware
+        mcu-storage-device
     )
 
 endif()

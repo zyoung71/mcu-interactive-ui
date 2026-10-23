@@ -1,3 +1,4 @@
+#include "platform/util/queue.h"
 #include <interactive-ui/Component.hpp>
 #include <cstring>
 
@@ -32,7 +33,7 @@ Component::Component(ScreenManager* manager, const Vec2i32& position, int32_t z_
     if (initial_screen)
         initial_screen->AddComponent(this);
 
-    queue_init(&moving_queue, sizeof(MovementAnimation), moving_queue_size);
+    mcu_queue_init(&moving_queue, sizeof(MovementAnimation), moving_queue_size);
 }
 
 Component::Component(ScreenManager* manager, const Vec2f& screen_percentage, int32_t z_layer, Screen* initial_screen, bool selectable)
@@ -52,12 +53,12 @@ Component::Component(const Component& to_copy)
     for (auto s : screen_set)
         s->AddComponent(this);
 
-    queue_init(&moving_queue, sizeof(MovementAnimation), moving_queue_size);
+    mcu_queue_init(&moving_queue, sizeof(MovementAnimation), moving_queue_size);
 }
 
 Component::~Component()
 {
-    queue_free(&moving_queue);
+    mcu_queue_deinit(moving_queue);
 }
 
 void Component::Update(float dt, const Screen* screen)
@@ -69,7 +70,7 @@ void Component::Update(float dt, const Screen* screen)
 
     // no single animation will be found in the same queue twice. if only one animation
     // is in progress, the queue will stay at a size of one until the animation is complete
-    while (queue_try_remove(&moving_queue, &animation))
+    while (mcu_queue_try_pop(moving_queue, &animation))
     {
         if (!animation.moving)
             continue;
@@ -226,7 +227,7 @@ void Component::Update(float dt, const Screen* screen)
         if (!ani)
             break; // no need to check the other indecies as a nullptr guarantees the rest are as well
         if (ani->moving)
-            queue_try_add(&moving_queue, ani); // if not done, add to queue again. must be done outside the while loop
+            mcu_queue_try_push(moving_queue, ani); // if not done, add to queue again. must be done outside the while loop
     }
 
     if (forced_visibility && personal_visibility)
@@ -343,10 +344,10 @@ bool Component::Move(MovementAnimation animation, bool reversed, bool enable_cal
 
     MoveRefInc();
     
-    return queue_try_add(&moving_queue, &animation);
+    return mcu_queue_try_push(moving_queue, &animation);
 }
 
 bool Component::IsMoving() const
 {
-    return !queue_is_empty(&moving_queue);
+    return !mcu_queue_is_empty(moving_queue);
 }

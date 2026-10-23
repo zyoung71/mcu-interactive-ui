@@ -1,3 +1,4 @@
+#include "platform/util/queue.h"
 #include <interactive-ui/Screen.hpp>
 #include <interactive-ui/components/PaddingComponent.hpp>
 #include <interactive-ui/SelectableComponent.hpp>
@@ -231,7 +232,7 @@ void Screen::OnScreenDeselect()
 void Screen::ProcessQueuedControls()
 {
     uint64_t control_mask;
-    while (queue_try_remove(&manager->control_queue, &control_mask))
+    while (mcu_queue_try_pop(manager->control_queue, &control_mask))
     {
         OnControl(control_mask);
     }

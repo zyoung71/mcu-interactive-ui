@@ -4,8 +4,8 @@
 #include <memory>
 #include <unordered_set>
 
-#include <pico/time.h>
-#include <pico/util/queue.h>
+#include <platform/time.h>
+#include <platform/util/queue.h>
 
 #include "DisplayInterface.hpp"
 #include "iface/CursorMixin.hpp"
@@ -20,7 +20,7 @@ private:
     std::stack<Screen*> screens;
     std::unordered_set<Screen*> screen_set; // stacks cannot be traversed, so there is this. it keeps a record of all screens that have been added
     std::unique_ptr<CursorMixin> cursor;
-    queue_t control_queue;
+    mcu_queue_t* control_queue;
     Screen* selected_screen;
 
     float last_dt = 0.f;
