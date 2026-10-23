@@ -1,4 +1,4 @@
-# Raspberry Pi Pico Interactive UI Library
+# Microcontroller Interactive UI Library
 #### Table of contents:
 1. Setup
 2. Implement your screen
