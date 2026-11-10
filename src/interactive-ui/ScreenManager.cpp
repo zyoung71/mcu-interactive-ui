@@ -1,3 +1,4 @@
+#include "platform/time.h"
 #include "platform/util/queue.h"
 #include <interactive-ui/ScreenManager.hpp>
 #include <interactive-ui/Screen.hpp>
@@ -130,10 +131,9 @@ void ScreenManager::QueueControl(uint64_t action_mask)
 
 void ScreenManager::UpdateDeltaTime()
 {
-    static absolute_time_t then = 0;
-    absolute_time_t now = to_us_since_boot(get_absolute_time());
-    absolute_time_t dt_us = absolute_time_diff_us(then, now);
-    last_dt = dt_us * 1e-6f;
+    static mcu_time_t then = 0;
+    mcu_time_t now = mcu_get_time_since_boot_us();
+    last_dt = (now - then) * 1e-6f;
     then = now;
 }
 
