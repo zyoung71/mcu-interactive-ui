@@ -7,3 +7,6 @@
 [submodule "lib/mcu-storage-device"]
 	path = lib/mcu-storage-device
 	url = https://github.com/zyoung71/mcu-storage-device
+[submodule "lib/mcu-platform"]
+	path = lib/mcu-platform
+	url = https://github.com/zyoung71/mcu-platform

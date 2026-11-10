@@ -25,7 +25,7 @@ pico_sdk_init()
 project(InteractiveUI C CXX ASM)
 
 add_subdirectory(../../ build/mcu-interactive-ui)
-add_subdirectory(../../lib/mcu-event-hardware/lib/mcu-util/lib/mcu-platform/platforms/rp2040 build/mcu-platform-rp2040)
+add_subdirectory(../../lib/mcu-platform/platforms/rp2040 build/mcu-platform-rp2040)
 
 add_executable(InteractiveUI
     src/main.cpp

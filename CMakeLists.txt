@@ -20,6 +20,7 @@ if (NOT TARGET mcu-interactive-ui)
     )
 
     add_subdirectory(lib/mcu-math)
+    add_subdirectory(lib/mcu-platform)
     add_subdirectory(lib/mcu-event-hardware)
     add_subdirectory(lib/mcu-storage-device)
 
